@@ -21,7 +21,7 @@ export function generateRandomPassword(length = 10) {
 export function formatDate(date: Date | string) {
   if (!date) return ""
   const d = new Date(date)
-  return d.toLocaleDateString("pt-BR")
+  return d.toLocaleDateString("pt-BR", { timeZone: "UTC" })
 }
 
 export function getCourseFullName(courseCode: string): string {
