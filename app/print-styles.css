@@ -1,0 +1,60 @@
+@media print {
+
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  button.no-print {
+    display: none !important;
+  }
+
+  .print-body {
+    display: grid;
+    grid-template-columns: 1fr !important;
+  }
+
+  .extra-not-break {
+    page-break-inside: avoid;
+  }
+
+  .bg-primary,
+  .bg-primary\/10,
+  .bg-muted,
+  .bg-secondary {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .shadow,
+  .shadow-md,
+  .shadow-lg,
+  .border,
+  .rounded-md,
+  .rounded-lg {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  .print-body,
+  .print-header,
+  .print-section,
+  .print-footer {
+    page-break-inside: avoid;
+  }
+}
