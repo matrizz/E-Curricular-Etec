@@ -80,6 +80,15 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       where: { curriculumId: id },
     })
 
+    await prisma.user.update({
+      where: {
+        id: session.user.id,
+      },
+      data: {
+        hasCurriculum: true,
+      }
+    })
+
     if (data.additionalEducation && data.additionalEducation.length > 0) {
       await Promise.all(
         data.additionalEducation
