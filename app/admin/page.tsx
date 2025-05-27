@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
 import { getCourseFullName, formatDate } from "@/lib/utils"
-import { Search, User, Trash2, Edit } from "lucide-react"
+import { Search, User, Trash2, Edit, ArrowLeft } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
 interface Curriculum {
@@ -55,7 +55,7 @@ export default function AdminPage() {
       const response = await fetch(`/api/curriculum?${params.toString()}`)
       const data = await response.json()
 
-      
+
       if (data.success) {
         setCurricula(data.data)
       } else {
@@ -128,11 +128,15 @@ export default function AdminPage() {
   const handleView = (id: string) => {
     router.push(`/curriculum/${id}`)
   }
+  
+  const handleBack = () => {
+    router.push("/")
+  }
 
   if (status === "loading" || (status === "authenticated" && isLoading)) {
     return (
-      <div className="container transition-all ease-in-out py-10">
-        <div className="flex justify-center items-center h-64">
+      <div className="w-full transition-all ease-in-out py-10">
+        <div className="flex justify-center self-center items-center h-64">
           <p className="text-lg">Carregando...</p>
         </div>
       </div>
@@ -140,8 +144,12 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container flex flex-col self-center py-10">
       <Toaster />
+      <Button variant="outline" className="w-fit my-4" onClick={handleBack}>
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Voltar
+      </Button>
       <h1 className="text-3xl font-bold mb-6">Painel Administrativo</h1>
 
       <Card className="mb-6">
