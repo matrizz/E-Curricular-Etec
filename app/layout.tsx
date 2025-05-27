@@ -5,6 +5,7 @@ import "./globals.css"
 import { Providers } from "@/components/providers"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
+import LandingNav from "@/components/landing-nav"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,7 +24,9 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={`${inter.className} transition-colors ease-in flex min-h-screen justify-center`}>
-        <Providers session={session}>{children}</Providers>
+        <Providers session={session}>
+          {children}
+        </Providers>
       </body>
     </html>
   )

@@ -38,14 +38,8 @@ export default function LandingPage() {
               </div>
               <div className="relative lg:pl-6">
                 <div className="relative overflow-hidden rounded-xl border bg-background p-2 shadow-lg">
-                  <div className="overflow-hidden rounded-lg border shadow-sm">
-                    <img
-                      src="/images/curriculum-preview.jpg"
-                      alt="Prévia do currículo"
-                      width={550}
-                      height={400}
-                      className="aspect-[4/3] object-cover w-full"
-                    />
+                  <div className="overflow-hidden w-auto h-min rounded-lg border shadow-sm">
+                    <img className="w-auto h-1/6 object-cover" src="/modelo.jpg" />
                   </div>
                   <div className="absolute bottom-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm font-medium">
                     Modelo profissional

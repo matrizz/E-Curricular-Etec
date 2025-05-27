@@ -64,6 +64,12 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string
         session.user.rm = token.rm as string
         session.user.role = token.role as string
+
+        // Buscar hasCurriculum do banco de dados
+        const user = await prisma.user.findUnique({
+          where: { id: token.id as string }
+        })
+        session.user.hasCurriculum = user?.hasCurriculum as boolean
       }
       return session
     },

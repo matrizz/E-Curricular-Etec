@@ -26,6 +26,7 @@ export default function ProfilePage() {
     }
 
     fetchCurriculum()
+    console.log(session)
   }, [status, router])
 
 
@@ -121,67 +122,71 @@ export default function ProfilePage() {
           </Card>
         </div>
 
-        <div className="md:col-span-2">
-          {curriculum ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Meu Currículo</CardTitle>
-                <CardDescription>Última atualização: {formatDate(curriculum.updatedAt)}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="font-medium">Curso</h3>
-                    <p>{getCourseFullName(curriculum.course)}</p>
-                  </div>
+        {
+          session?.user.role === "USER" && session?.user.hasCurriculum || session?.user.role === "ADMIN" && session?.user.hasCurriculum && (
+            <div className="md:col-span-2">
+              {curriculum ? (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Meu Currículo</CardTitle>
+                    <CardDescription>Última atualização: {formatDate(curriculum.updatedAt)}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="font-medium">Curso</h3>
+                        <p>{getCourseFullName(curriculum.course)}</p>
+                      </div>
 
-                  <div>
-                    <h3 className="font-medium">Objetivo Profissional</h3>
-                    <p className="line-clamp-3">{curriculum.objective}</p>
-                  </div>
+                      <div>
+                        <h3 className="font-medium">Objetivo Profissional</h3>
+                        <p className="line-clamp-3">{curriculum.objective}</p>
+                      </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    <h3 className="font-medium w-full">Habilidades</h3>
-                    {curriculum.skills.map((skill: any) => (
-                      <span key={skill.id} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                        {skill.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex gap-2">
-                <Button variant="outline" className="flex-1" onClick={handleViewCurriculum}>
-                  <User className="h-4 w-4 mr-2" />
-                  Visualizar
-                </Button>
-                <Button className="flex-1" onClick={handleEditCurriculum}>
-                  <Edit className="h-4 w-4 mr-2" />
-                  Editar
-                </Button>
-              </CardFooter>
-            </Card>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Nenhum Currículo Encontrado</CardTitle>
-                <CardDescription>Você ainda não possui um currículo cadastrado</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Crie seu currículo para aumentar suas chances de conseguir um estágio ou emprego. Preencha todas as
-                  informações relevantes sobre sua formação, experiências e habilidades.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full" onClick={handleCreateCurriculum}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Criar Meu Currículo
-                </Button>
-              </CardFooter>
-            </Card>
-          )}
-        </div>
+                      <div className="flex flex-wrap gap-2">
+                        <h3 className="font-medium w-full">Habilidades</h3>
+                        {curriculum.skills.map((skill: any) => (
+                          <span key={skill.id} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                            {skill.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex gap-2">
+                    <Button variant="outline" className="flex-1" onClick={handleViewCurriculum}>
+                      <User className="h-4 w-4 mr-2" />
+                      Visualizar
+                    </Button>
+                    <Button className="flex-1" onClick={handleEditCurriculum}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Editar
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Nenhum Currículo Encontrado</CardTitle>
+                    <CardDescription>Você ainda não possui um currículo cadastrado</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Crie seu currículo para aumentar suas chances de conseguir um estágio ou emprego. Preencha todas as
+                      informações relevantes sobre sua formação, experiências e habilidades.
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full" onClick={handleCreateCurriculum}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Criar Meu Currículo
+                    </Button>
+                  </CardFooter>
+                </Card>
+              )}
+            </div>
+          )
+        }
       </div>
     </div>
   )

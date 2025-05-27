@@ -157,12 +157,18 @@ export async function POST(request: Request) {
 
     const curriculum = await prisma.curriculum.create({
       data: curriculumData,
+
       include: {
         additionalEducation: true,
         extracurricular: true,
         experience: true,
         skills: true,
       },
+    })
+    
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { hasCurriculum: true },
     })
 
     return NextResponse.json({
