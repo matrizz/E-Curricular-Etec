@@ -23,7 +23,7 @@ export default async function RootLayout({
 
   return (
     <html className="scroll-smooth" lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className} transition-colors ease-in flex min-h-screen justify-center`}>
+      <body className={`${inter.className} transition-colors ease-in flex flex-col items-center min-h-screen justify-center`}>
         <Providers session={session}>
           {children}
         </Providers>
