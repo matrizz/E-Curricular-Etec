@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react"
 import { FileText, Menu } from "lucide-react"
 import { useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Separator } from "@radix-ui/react-select"
 
 export default function LandingHeader() {
     const { data: session } = useSession()
@@ -13,31 +14,36 @@ export default function LandingHeader() {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-16 items-center justify-between">
+            <div className="container flex h-32 items-center justify-between">
                 <div className="flex items-center gap-2">
+                    <Link href="https://etecitanhaem.cps.sp.gov.br/" className="py-2 px-4">
+                        <img className="h-24 block dark:hidden" src="/logos/etec_ra_baixada_santista_itanhaem_cor.png" alt="Etec de Itanhaém light logo" />
+                        <img className="h-24 hidden dark:block" src="/logos/etec_ra_baixada_santista_itanhaem_br.png" alt="Etec de Itanhaém dark logo" />
+                    </Link>
+                    <Separator className="h-16 mr-4 w-0.5 bg-gray-300" />
                     <Link href="/" className="flex items-center gap-2">
-                        <FileText className="h-6 w-6 text-primary" />
-                        <span className="font-bold text-lg hidden md:inline-block">E-Curricular</span>
-                        <span className="font-bold text-lg md:hidden">Currículos ETEC</span>
+                        <img className="h-16 relative -top-2" src="/logos/e-curricular-logo.png" alt="E-curricular logo" />
+                        <img className="h-16 block dark:hidden relative -top-2" src="/logos/e-curricular.png" alt="E-curricular logo" />
+                        <img className="h-16 hidden dark:block relative -top-2" src="/logos/e-curricular-dark.png" alt="E-curricular logo" />
                     </Link>
                 </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-6">
-                    <Link href="/#recursos" className="text-sm font-medium hover:text-primary transition-colors">
+                    <Link href="/#recursos" className="font-medium hover:text-primary transition-colors">
                         Recursos
                     </Link>
-                    <Link href="/#como-funciona" className="text-sm font-medium hover:text-primary transition-colors">
+                    <Link href="/#como-funciona" className="font-medium hover:text-primary transition-colors">
                         Como funciona
                     </Link>
                     {/* <Link href="/#depoimentos" className="text-sm font-medium hover:text-primary transition-colors">
                         Depoimentos
                     </Link> */}
-                    <Link href="/#perguntas-frequentes" className="text-sm font-medium hover:text-primary transition-colors">
+                    <Link href="/#perguntas-frequentes" className="font-medium hover:text-primary transition-colors">
                         Perguntas Frequentes
                     </Link>
-                    <Link href="/#faq" className="text-sm font-medium hover:text-primary transition-colors">
-                        FAQ
+                    <Link href="/about" className="font-medium hover:text-primary transition-colors">
+                        Sobre
                     </Link>
 
                     {session ? (
@@ -96,11 +102,11 @@ export default function LandingHeader() {
                             </Link>
 
                             <Link
-                                href="/#faq"
+                                href="/about"
                                 className="text-base font-medium hover:text-primary transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                FAQ
+                                Sobre
                             </Link>
 
                             <div className="pt-4 border-t">
