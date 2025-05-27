@@ -12,9 +12,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </Link>
                     <Separator className="h-16 mr-4 w-0.5 bg-gray-300" />
                     <Link href="/" className="flex items-center gap-2">
-                        <img className="h-16 relative -top-2" src="/logos/e-curricular-logo.png" alt="E-curricular logo" />
-                        <img className="h-16 block dark:hidden relative -top-2" src="/logos/e-curricular.png" alt="E-curricular logo" />
-                        <img className="h-16 hidden dark:block relative -top-2" src="/logos/e-curricular-dark.png" alt="E-curricular logo" />
+                        <img className="h-12 relative -top-2" src="/logos/e-curricular-logo.png" alt="E-curricular logo" />
+                        <img className="h-12 block dark:hidden relative -top-2" src="/logos/e-curricular.png" alt="E-curricular logo" />
+                        <img className="h-12 hidden dark:block relative -top-2" src="/logos/e-curricular-dark.png" alt="E-curricular logo" />
                     </Link>
                 </div>
             </div>
