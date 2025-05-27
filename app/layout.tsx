@@ -22,7 +22,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
 
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html className="scroll-smooth" lang="pt-BR" suppressHydrationWarning>
       <body className={`${inter.className} transition-colors ease-in flex min-h-screen justify-center`}>
         <Providers session={session}>
           {children}

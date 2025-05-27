@@ -17,19 +17,19 @@ export default function LandingHeader() {
             <div className="container flex h-32 items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Link href="https://etecitanhaem.cps.sp.gov.br/" className="py-2 px-4">
-                        <img className="h-24 block dark:hidden" src="/logos/etec_ra_baixada_santista_itanhaem_cor.png" alt="Etec de Itanhaém light logo" />
+                        <img className="h-16 lg:h-24 block dark:hidden" src="/logos/etec_ra_baixada_santista_itanhaem_cor.png" alt="Etec de Itanhaém light logo" />
                         <img className="h-24 hidden dark:block" src="/logos/etec_ra_baixada_santista_itanhaem_br.png" alt="Etec de Itanhaém dark logo" />
                     </Link>
                     <Separator className="h-16 mr-4 w-0.5 bg-gray-300" />
                     <Link href="/" className="flex items-center gap-2">
-                        <img className="h-16 relative -top-2" src="/logos/e-curricular-logo.png" alt="E-curricular logo" />
-                        <img className="h-16 block dark:hidden relative -top-2" src="/logos/e-curricular.png" alt="E-curricular logo" />
-                        <img className="h-16 hidden dark:block relative -top-2" src="/logos/e-curricular-dark.png" alt="E-curricular logo" />
+                        <img className="h-12 lg:h-16 relative -top-2" src="/logos/e-curricular-logo.png" alt="E-curricular logo" />
+                        <img className="h-12 hidden lg:h-12 md:block dark:hidden relative -top-2" src="/logos/e-curricular.png" alt="E-curricular logo" />
+                        <img className="h-12 hidden lg:h-12 dark:hidden md:dark:block relative -top-2" src="/logos/e-curricular-dark.png" alt="E-curricular logo" />
                     </Link>
                 </div>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-6">
+                <nav className="hidden xl:flex items-center gap-6">
                     <Link href="/#recursos" className="font-medium hover:text-primary transition-colors">
                         Recursos
                     </Link>
@@ -65,10 +65,10 @@ export default function LandingHeader() {
                 {/* Mobile Navigation */}
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon" className="md:hidden">
-                            <Menu className="h-6 w-6" />
+                        <button className="size-12 xl:hidden mr-4">
+                            <Menu className="size-12" />
                             <span className="sr-only">Toggle menu</span>
-                        </Button>
+                        </button>
                     </SheetTrigger>
                     <SheetContent side="right">
                         <div className="flex flex-col space-y-4 mt-8">
