@@ -17,7 +17,7 @@ export default function LandingPage() {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-4">
-                  ETEC - Sistema de Currículos
+                  ETEC Itanhaém - Sistema de Currículos
                 </div>
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                   Destaque seu potencial profissional com um currículo de impacto
