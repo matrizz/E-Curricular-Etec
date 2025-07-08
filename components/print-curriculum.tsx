@@ -1,7 +1,7 @@
 "use client"
 
 import { forwardRef } from "react"
-import { getCourseFullName, formatDate } from "@/lib/utils"
+import { getCourseFullName, formatDate } from "@utils/helpers"
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, GraduationCap, Award, Clock, Star, Target } from "lucide-react"
 
 interface PrintCurriculumProps {

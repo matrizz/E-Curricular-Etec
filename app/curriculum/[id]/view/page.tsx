@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { getCourseFullName, formatDate } from "@/lib/utils"
+import { getCourseFullName, formatDate } from "@utils/helpers"
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, GraduationCap, Award, Clock, Star, Target } from "lucide-react"
 import router from "next/router"
 import { useToast } from "@/hooks/use-toast"

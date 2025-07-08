@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { hashPassword } from "@/lib/auth"
-import { isValidEtecEmail } from "@/lib/utils"
+import { isValidEtecEmail } from "@utils/helpers"
 import { z } from "zod"
 
 const registerSchema = z.object({

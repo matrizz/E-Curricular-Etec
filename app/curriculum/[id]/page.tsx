@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { getCourseFullName, formatDate } from "@/lib/utils"
+import { getCourseFullName, formatDate } from "@utils/helpers"
 import { Edit, ArrowLeft, Printer, Download, FileText, Eye } from "lucide-react"
 import { useReactToPrint } from "react-to-print"
 import PrintCurriculum from "@/components/print-curriculum"
@@ -76,7 +76,7 @@ export default function ViewCurriculumPage({ params }: { params: { id: string } 
       router.push("/profile")
     }
   }
- 
+
 
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -108,7 +108,7 @@ export default function ViewCurriculumPage({ params }: { params: { id: string } 
     try {
       const element = printRef.current
 
-      
+
       const canvas = await html2canvas(element, {
         scale: 1,
         useCORS: true,
@@ -129,7 +129,7 @@ export default function ViewCurriculumPage({ params }: { params: { id: string } 
       })
 
       try {
-        const imgData = canvas.toDataURL("image/jpeg", 1)        
+        const imgData = canvas.toDataURL("image/jpeg", 1)
 
         if (imgHeight > pageHeight) {
           let heightLeft = imgHeight - pageHeight

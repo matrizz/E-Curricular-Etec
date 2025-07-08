@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { hashPassword } from "@/lib/auth"
-import { generateRandomPassword } from "@/lib/utils"
+import { generateRandomPassword } from "@utils/helpers"
 import { z } from "zod"
 
 

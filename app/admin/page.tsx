@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
-import { getCourseFullName, formatDate } from "@/lib/utils"
+import { getCourseFullName, formatDate } from "@utils/helpers"
 import { Search, User, Trash2, Edit, ArrowLeft } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -128,7 +128,7 @@ export default function AdminPage() {
   const handleView = (id: string) => {
     router.push(`/curriculum/${id}`)
   }
-  
+
   const handleBack = () => {
     router.push("/")
   }

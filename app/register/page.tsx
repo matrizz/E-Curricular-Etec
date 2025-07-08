@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { isValidEtecEmail } from "@/lib/utils"
+import { isValidEtecEmail } from "@utils/helpers"
 import { useSession } from "next-auth/react"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -48,21 +48,21 @@ export default function RegisterPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-      if (status === "loading") return
-  
-      if (status === "authenticated") {
-        router.push("/profile")
-        return
-      }
+    if (status === "loading") return
 
-      if (status !== "unauthenticated") {
-        router.push("/form")
-        return
-      }
-  
-    }, [status, router])
+    if (status === "authenticated") {
+      router.push("/profile")
+      return
+    }
 
-  
+    if (status !== "unauthenticated") {
+      router.push("/form")
+      return
+    }
+
+  }, [status, router])
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
