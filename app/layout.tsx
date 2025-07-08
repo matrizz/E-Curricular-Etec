@@ -5,7 +5,7 @@ import "./globals.css"
 import { Providers } from "@/components/providers"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
-import LandingNav from "@/components/landing-nav"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,6 +24,7 @@ export default async function RootLayout({
   return (
     <html className="scroll-smooth" lang="pt-BR" suppressHydrationWarning>
       <body className={`${inter.className} transition-colors ease-in flex flex-col items-center min-h-screen justify-center`}>
+        <Analytics />
         <Providers session={session}>
           {children}
         </Providers>
