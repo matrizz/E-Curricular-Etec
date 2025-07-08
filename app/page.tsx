@@ -4,12 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, Users, Award, ArrowRight, GraduationCap, Briefcase, Search } from "lucide-react"
 import LandingHeader from "@/components/landing-header"
 import LandingFooter from "@/components/landing-footer"
+import VLibras from "@/components/vlibras"
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <LandingHeader />
-
+      <VLibras />
       <main className="flex-1">
         <section className="relative py-20 md:py-28 bg-gradient-to-b from-primary/5 to-background">
           <div className="container px-4 md:px-6">
