@@ -128,7 +128,7 @@ export default function AdminPage() {
   const handleView = (id: string) => {
     router.push(`/curriculum/${id}`)
   }
-  
+
   const handleBack = () => {
     router.push("/")
   }
@@ -191,6 +191,7 @@ export default function AdminPage() {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b">
+                        <th className="py-3 px-4 text-left">Foto</th>
                         <th className="py-3 px-4 text-left">Nome</th>
                         <th className="py-3 px-4 text-left">RM</th>
                         <th className="py-3 px-4 text-left">Email</th>
@@ -202,6 +203,13 @@ export default function AdminPage() {
                     <tbody>
                       {curricula.map((curriculum) => (
                         <tr key={curriculum.id} className="border-b hover:bg-muted/50">
+                          <td className="py-3 px-4">
+                            <img
+                              // @ts-ignore
+                              src={curriculum.image || "/default-avatar.png"}
+                              alt={curriculum.name}
+                              className="w-10 h-10 rounded-full"
+                            /></td>
                           <td className="py-3 px-4">{curriculum.name}</td>
                           <td className="py-3 px-4">{curriculum.rm}</td>
                           <td className="py-3 px-4">{curriculum.email}</td>
