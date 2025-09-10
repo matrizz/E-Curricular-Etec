@@ -26,7 +26,6 @@ export default function ProfilePage() {
     }
 
     fetchCurriculum()
-    console.log(session)
   }, [status, router])
 
 
@@ -37,7 +36,8 @@ export default function ProfilePage() {
       const data = await response.json()
 
       if (data.success && data.data.length > 0) {
-        setCurriculum(data.data.filter((curr: any) => curr.userId === session?.user.id)[0])
+        const content = data.data.filter((item: any) => item.userId === session?.user.id)[0]
+        setCurriculum(content)
       }
     } catch (error) {
       console.error("Erro ao buscar currículo:", error)
@@ -121,9 +121,8 @@ export default function ProfilePage() {
             </CardFooter>
           </Card>
         </div>
-
         {
-          session?.user.role === "USER" && session?.user.hasCurriculum || session?.user.role === "ADMIN" && session?.user.hasCurriculum && (
+          (session?.user.role == "USER" || session?.user.role == "ADMIN") && session?.user.hasCurriculum && (
             <div className="md:col-span-2">
               {curriculum ? (
                 <Card>
