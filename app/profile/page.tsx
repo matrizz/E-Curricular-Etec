@@ -37,7 +37,7 @@ export default function ProfilePage() {
       const data = await response.json()
 
       if (data.success && data.data.length > 0) {
-        setCurriculum(data.data[0])
+        setCurriculum(data.data.filter((curr: any) => curr.userId === session?.user.id)[0])
       }
     } catch (error) {
       console.error("Erro ao buscar currículo:", error)
@@ -125,7 +125,7 @@ export default function ProfilePage() {
         {
           session?.user.role === "USER" && session?.user.hasCurriculum || session?.user.role === "ADMIN" && session?.user.hasCurriculum && (
             <div className="md:col-span-2">
-              {curriculum && (
+              {curriculum ? (
                 <Card>
                   <CardHeader>
                     <CardTitle>Meu Currículo</CardTitle>
@@ -161,6 +161,25 @@ export default function ProfilePage() {
                     <Button className="flex-1" onClick={handleEditCurriculum}>
                       <Edit className="h-4 w-4 mr-2" />
                       Editar
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Nenhum Currículo Encontrado</CardTitle>
+                    <CardDescription>Você ainda não possui um currículo cadastrado</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Crie seu currículo para aumentar suas chances de conseguir um estágio ou emprego. Preencha todas as
+                      informações relevantes sobre sua formação, experiências e habilidades.
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full" onClick={handleCreateCurriculum}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Criar Meu Currículo
                     </Button>
                   </CardFooter>
                 </Card>
