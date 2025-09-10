@@ -47,7 +47,7 @@ export async function GET(request: Request) {
       whereClause.course = course
     }
 
-    const curricula = await prisma.curriculum.findMany({
+    const curriculum = await prisma.curriculum.findMany({
       where: whereClause,
       include: {
         additionalEducation: true,
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      data: curricula,
+      data: curriculum,
     })
   } catch (error) {
     console.error("Erro ao buscar currículos:", error)

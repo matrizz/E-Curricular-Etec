@@ -9,9 +9,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
 import { getCourseFullName, formatDate } from "@/lib/utils"
-import { Search, User, Trash2, Edit, ArrowLeft } from "lucide-react"
+import { Search, User, Trash2, Edit, ArrowLeft, Mail, Send } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
 interface Curriculum {
@@ -25,12 +29,28 @@ interface Curriculum {
   updatedAt: string
 }
 
+interface EmailForm {
+  subject: string
+  message: string
+  recipients: 'all' | 'course'
+  course: string
+}
+
 export default function AdminPage() {
   const { data: session, status } = useSession()
   const [curricula, setCurricula] = useState<Curriculum[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [activeTab, setActiveTab] = useState("all")
   const [isLoading, setIsLoading] = useState(true)
+  const [availableCourses, setAvailableCourses] = useState<string[]>([])
+  const [emailForm, setEmailForm] = useState<EmailForm>({
+    subject: '',
+    message: '',
+    recipients: 'all',
+    course: ''
+  })
+  const [isSendingEmail, setIsSendingEmail] = useState(false)
+  const [showEmailForm, setShowEmailForm] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
@@ -43,6 +63,7 @@ export default function AdminPage() {
     }
 
     fetchCurricula()
+    fetchAvailableCourses()
   }, [status, session, router])
 
   const fetchCurricula = async (course?: string) => {
@@ -133,6 +154,75 @@ export default function AdminPage() {
     router.push("/")
   }
 
+  const fetchAvailableCourses = async () => {
+    try {
+      const response = await fetch('/api/email')
+      const data = await response.json()
+      
+      if (data.success) {
+        setAvailableCourses(data.courses)
+      }
+    } catch (error) {
+      console.error('Erro ao buscar cursos:', error)
+    }
+  }
+
+  const handleEmailFormChange = (field: keyof EmailForm, value: string) => {
+    setEmailForm(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSendingEmail(true)
+
+    try {
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: emailForm.subject,
+          message: emailForm.message,
+          recipients: emailForm.recipients,
+          course: emailForm.recipients === 'course' ? emailForm.course : undefined,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast({
+          title: "Sucesso!",
+          description: data.message,
+        })
+        
+        setEmailForm({
+          subject: '',
+          message: '',
+          recipients: 'all',
+          course: ''
+        })
+        setShowEmailForm(false)
+      } else {
+        toast({
+          title: "Erro ao enviar email",
+          description: data.message,
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error('Erro ao enviar email:', error)
+      toast({
+        title: "Erro ao enviar email",
+        description: "Erro interno do servidor. Tente novamente mais tarde.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSendingEmail(false)
+    }
+  }
+
   if (status === "loading" || (status === "authenticated" && isLoading)) {
     return (
       <div className="w-full transition-all ease-in-out py-10">
@@ -151,6 +241,107 @@ export default function AdminPage() {
         Voltar
       </Button>
       <h1 className="text-3xl font-bold mb-6">Painel Administrativo</h1>
+      
+      <div className="mb-6">
+        <Button 
+          onClick={() => setShowEmailForm(!showEmailForm)}
+          className="bg-blue-600 hover:bg-blue-700"
+        >
+          <Mail className="h-4 w-4 mr-2" />
+          {showEmailForm ? 'Cancelar Envio' : 'Enviar Email'}
+        </Button>
+      </div>
+
+      {showEmailForm && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Enviar Email</CardTitle>
+            <CardDescription>Envie emails para todos os usuários ou para usuários de um curso específico</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSendEmail} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="subject">Assunto</Label>
+                <Input
+                  id="subject"
+                  value={emailForm.subject}
+                  onChange={(e) => handleEmailFormChange('subject', e.target.value)}
+                  placeholder="Digite o assunto do email"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="recipients">Destinatários</Label>
+                <Select
+                  value={emailForm.recipients}
+                  onValueChange={(value: 'all' | 'course') => {
+                    handleEmailFormChange('recipients', value)
+                    if (value === 'all') {
+                      handleEmailFormChange('course', '')
+                    }
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione os destinatários" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos os usuários</SelectItem>
+                    <SelectItem value="course">Usuários de um curso</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {emailForm.recipients === 'course' && (
+                <div className="space-y-2">
+                  <Label htmlFor="course">Curso</Label>
+                  <Select
+                    value={emailForm.course}
+                    onValueChange={(value) => handleEmailFormChange('course', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o curso" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCourses.map((course) => (
+                        <SelectItem key={course} value={course}>
+                          {getCourseFullName(course)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="message">Mensagem</Label>
+                <Textarea
+                  id="message"
+                  value={emailForm.message}
+                  onChange={(e) => handleEmailFormChange('message', e.target.value)}
+                  placeholder="Digite a mensagem do email"
+                  rows={6}
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <Button type="submit" disabled={isSendingEmail}>
+                  <Send className="h-4 w-4 mr-2" />
+                  {isSendingEmail ? 'Enviando...' : 'Enviar Email'}
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setShowEmailForm(false)}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      )}
 
       <Card className="mb-6">
         <CardHeader>
