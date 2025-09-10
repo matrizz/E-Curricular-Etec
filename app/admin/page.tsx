@@ -24,6 +24,7 @@ interface Curriculum {
   email: string
   rm: string
   phone: string
+  image: string
   course: string
   createdAt: string
   updatedAt: string
@@ -158,7 +159,7 @@ export default function AdminPage() {
     try {
       const response = await fetch('/api/email')
       const data = await response.json()
-      
+
       if (data.success) {
         setAvailableCourses(data.courses)
       }
@@ -196,7 +197,7 @@ export default function AdminPage() {
           title: "Sucesso!",
           description: data.message,
         })
-        
+
         setEmailForm({
           subject: '',
           message: '',
@@ -241,9 +242,9 @@ export default function AdminPage() {
         Voltar
       </Button>
       <h1 className="text-3xl font-bold mb-6">Painel Administrativo</h1>
-      
+
       <div className="mb-6">
-        <Button 
+        <Button
           onClick={() => setShowEmailForm(!showEmailForm)}
           className="bg-blue-600 hover:bg-blue-700"
         >
@@ -330,9 +331,9 @@ export default function AdminPage() {
                   <Send className="h-4 w-4 mr-2" />
                   {isSendingEmail ? 'Enviando...' : 'Enviar Email'}
                 </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => setShowEmailForm(false)}
                 >
                   Cancelar
@@ -395,12 +396,21 @@ export default function AdminPage() {
                       {curricula.map((curriculum) => (
                         <tr key={curriculum.id} className="border-b hover:bg-muted/50">
                           <td className="py-3 px-4">
-                            <img
-                              // @ts-ignore
-                              src={curriculum.image || "/default-avatar.png"}
-                              alt={curriculum.name}
-                              className="w-10 h-10 rounded-full"
-                            /></td>
+                            {
+
+                              curriculum.image ? (
+                                <img
+                                  src={curriculum.image}
+                                  alt={curriculum.name}
+                                  className="w-10 h-10 rounded-full"
+                                />
+                              ) : (
+                                <div className="w-10 h-10 flex bg-gray-700 place-content-center place-items-center rounded-full">
+                                  <User className="h-4 w-4" />
+                                </div>
+                              )
+                            }
+                          </td>
                           <td className="py-3 px-4">{curriculum.name}</td>
                           <td className="py-3 px-4">{curriculum.rm}</td>
                           <td className="py-3 px-4">{curriculum.email}</td>
