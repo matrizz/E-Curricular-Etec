@@ -83,7 +83,7 @@ export default function ResetPasswordPage() {
         description: "Verifique seu email para redefinir sua senha",
       })
 
-      router.push(`/reset-password?token=${data.token}`)
+      router.push(`/login`)
     } catch (error) {
       console.error("Erro ao solicitar reset:", error)
       toast({

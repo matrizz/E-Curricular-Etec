@@ -85,7 +85,36 @@ export async function POST(req: NextRequest) {
 
     const emails = users.map(user => user.curriculum?.email)
 
-    const htmlMessage = `
+    await sendEmail({
+      // @ts-expect-error
+      to: emails,
+      subject: `[E-Curricular Etec - Itanhaém] ${subject}`,
+      html: htmlEmailBody({subject, message}),
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: `Email enviado com sucesso para ${emails.length} destinatário(s)`,
+      recipientsCount: emails.length
+    })
+
+  } catch (error) {
+    console.error('Erro ao enviar email:', error)
+
+    let errorMessage = 'Erro interno do servidor ao enviar email'
+    if (error instanceof Error) {
+      errorMessage = error.message
+    }
+
+    return NextResponse.json(
+      { success: false, message: errorMessage },
+      { status: 500 }
+    )
+  }
+}
+
+export const htmlEmailBody = ({ subject, message }: { subject: string, message: string }) => {
+  return `
       <!DOCTYPE html>
       <html>
       <head>
@@ -146,35 +175,6 @@ ${message}
       </body>
       </html>
     `
-
-    await sendEmail({
-      // @ts-expect-error
-      to: emails,
-      subject: `[E-Curricular Etec - Itanhaém] ${subject}`,
-      html: htmlMessage,
-    })
-
-    console.log(`Email enviado por ${authResult.user?.name} (${authResult.user?.email}) para ${emails.length} destinatários`)
-
-    return NextResponse.json({
-      success: true,
-      message: `Email enviado com sucesso para ${emails.length} destinatário(s)`,
-      recipientsCount: emails.length
-    })
-
-  } catch (error) {
-    console.error('Erro ao enviar email:', error)
-
-    let errorMessage = 'Erro interno do servidor ao enviar email'
-    if (error instanceof Error) {
-      errorMessage = error.message
-    }
-
-    return NextResponse.json(
-      { success: false, message: errorMessage },
-      { status: 500 }
-    )
-  }
 }
 
 export async function GET() {

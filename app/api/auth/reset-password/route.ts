@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma"
 import { hashPassword } from "@/lib/auth"
 import { generateRandomPassword } from "@/lib/utils"
 import { z } from "zod"
+import { sendEmail } from "@/lib/email"
+import { htmlEmailBody } from "../../email/route"
+
 
 
 const requestResetSchema = z.object({
@@ -45,6 +48,7 @@ export async function POST(request: Request) {
 
       const hashedPassword = await hashPassword(password)
 
+
       await prisma.user.update({
         where: { id: user.id },
         data: {
@@ -71,13 +75,17 @@ export async function POST(request: Request) {
           email,
           rm,
         },
+        select: {
+          email: true,
+          id: true,
+        }
       })
 
       if (!user) {
         return NextResponse.json({ success: false, message: "Usuário não encontrado" }, { status: 404 })
       }
 
-      const resetToken = generateRandomPassword(32)
+      const resetToken = generateRandomPassword(32).replaceAll('#', '')
       const resetTokenExp = new Date(Date.now() + 3600000)
 
       await prisma.user.update({
@@ -88,11 +96,31 @@ export async function POST(request: Request) {
         },
       })
 
+
+      if (!user.email) {
+        await sendEmail({
+          to: email,
+          subject: "Redefinição de senha",
+          html: htmlEmailBody({
+            subject: 'Redefinição de senha', message: `<p>Para redefinir sua senha, clique no link abaixo:</p>
+          <a href="http://localhost:3000/reset-password?token=${resetToken}">Redefinir senha</a>`
+          }),
+        })
+      }
+
+      const emailsend = await sendEmail({
+        to: email,
+        subject: "Redefinição de senha",
+        html: htmlEmailBody({
+          subject: 'Redefinição de senha', message: `<p>Para redefinir sua senha, clique no link abaixo:</p>
+          <a href="http://localhost:3000/reset-password?token=${resetToken}">Redefinir senha</a>`
+        }),
+      })
+
       return NextResponse.json(
         {
           success: true,
           message: "Solicitação de redefinição de senha enviada com sucesso",
-          token: resetToken,
         },
         { status: 200 },
       )
