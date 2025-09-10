@@ -125,7 +125,7 @@ export default function ProfilePage() {
         {
           session?.user.role === "USER" && session?.user.hasCurriculum || session?.user.role === "ADMIN" && session?.user.hasCurriculum && (
             <div className="md:col-span-2">
-              {curriculum ? (
+              {curriculum && (
                 <Card>
                   <CardHeader>
                     <CardTitle>Meu Currículo</CardTitle>
@@ -164,28 +164,31 @@ export default function ProfilePage() {
                     </Button>
                   </CardFooter>
                 </Card>
-              ) : (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Nenhum Currículo Encontrado</CardTitle>
-                    <CardDescription>Você ainda não possui um currículo cadastrado</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      Crie seu currículo para aumentar suas chances de conseguir um estágio ou emprego. Preencha todas as
-                      informações relevantes sobre sua formação, experiências e habilidades.
-                    </p>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full" onClick={handleCreateCurriculum}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Criar Meu Currículo
-                    </Button>
-                  </CardFooter>
-                </Card>
               )}
+
             </div>
           )
+        }
+        {
+          !session?.user.hasCurriculum && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Nenhum Currículo Encontrado</CardTitle>
+                <CardDescription>Você ainda não possui um currículo cadastrado</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Crie seu currículo para aumentar suas chances de conseguir um estágio ou emprego. Preencha todas as
+                  informações relevantes sobre sua formação, experiências e habilidades.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" onClick={handleCreateCurriculum}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Criar Meu Currículo
+                </Button>
+              </CardFooter>
+            </Card>)
         }
       </div>
     </div>
