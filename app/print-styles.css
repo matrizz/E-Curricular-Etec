@@ -20,6 +20,12 @@
     display: none !important;
   }
 
+
+  div.print-container {
+    visibility: visible !important;
+    display: block;
+  }
+
   .print-body {
     display: grid;
     grid-template-columns: 1fr !important;

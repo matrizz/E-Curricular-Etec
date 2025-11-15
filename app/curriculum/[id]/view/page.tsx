@@ -100,11 +100,17 @@ export default function PrintCurriculum() {
         }
     }
 
+    useEffect(() => {
+        console.log(curriculum?.additionalEducation)
+    })
+
 
     return (
         <>
             <Toaster />
-            {curriculum && (<div ref={printRef} className="print-container max-w-3xl max-h-min w-max p-8 bg-white text-black font-sans">
+            <div className="OVERLAY z-50 fixed top-0 right-0 left-0 bottom-0 bg-black flex items-center justify-center">
+            </div>
+            {curriculum && (<div ref={printRef} className="print-container max-w-3xl mt-24 max-h-min w-max p-8 bg-white text-black font-sans">
                 <div className="print-header relative mb-8 pb-6 border-b-2 border-primary/20">
                     <div className="flex md:flex-row justify-between items-center md:items-start gap-6">
                         <div className="text-left md:text-left">
@@ -120,10 +126,10 @@ export default function PrintCurriculum() {
 
                 <div className="flex w-full">
                     <div className="print-section">
-                        <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex items-center">
+                        <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex">
                             <Target className="h-5 w-5 mr-2" /> Objetivo Profissional
                         </h2>
-                        <p className="text-fix-on-print text-sm pl-16 leading-relaxed">{curriculum.objective}</p>
+                        <p className="text-fix-on-print text-sm text-start leading-relaxed">{curriculum.objective}</p>
                     </div>
                 </div>
                 <div className="print-body grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -225,12 +231,12 @@ export default function PrintCurriculum() {
 
 
                         </div>
-                        <div className="print-section">
-                            <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex items-center">
-                                <GraduationCap className="h-5 w-5 mr-2" /> Outras Formações
-                            </h2>
+                        {curriculum.additionalEducation && curriculum.additionalEducation.length > 0 && (
+                            <div className="print-section">
+                                <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex items-center">
+                                    <GraduationCap className="h-5 w-5 mr-2" /> Outras Formações
+                                </h2>
 
-                            {curriculum.additionalEducation && curriculum.additionalEducation.length > 0 && (
                                 <ul className="space-y-4">
                                     {curriculum.additionalEducation
                                         .filter((edu: any) => edu.name && edu.name.trim() !== "")
@@ -248,8 +254,8 @@ export default function PrintCurriculum() {
                                             </li>
                                         ))}
                                 </ul>
-                            )}
-                        </div>
+                            </div>
+                        )}
 
                         {curriculum.experience && curriculum.experience.length > 0 && (
                             <div className="print-section">
