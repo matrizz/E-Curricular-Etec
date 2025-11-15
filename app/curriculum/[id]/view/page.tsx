@@ -284,32 +284,35 @@ export default function PrintCurriculum() {
 
 
                     </div>
-                </div>{curriculum.extracurricular && curriculum.extracurricular.length > 0 && (
-                    <div className="print-section extra-not-break">
-                        <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex items-center">
-                            <Award className="h-5 w-5 mr-2" /> Atividades Extracurriculares
-                        </h2>
-                        <ul className="space-y-4">
-                            {curriculum.extracurricular
-                                .filter((activity: any) => activity.name && activity.name.trim() !== "")
-                                .map((activity: any, index: number) => (
-                                    <li
-                                        key={activity.id || index}
-                                        className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-3 before:h-3 before:bg-primary/20 before:rounded-full"
-                                    >
-                                        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1">
-                                            <h3 className="font-bold text-gray-800">{activity.name}</h3>
-                                            <span className="flex items-center text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1 md:mt-0">
-                                                <Clock className="h-3 w-3 mr-1" />
-                                                {activity.hours} horas
-                                            </span>
-                                        </div>
-                                        {activity.description && <p className="text-sm text-gray-600">{activity.description}</p>}
-                                    </li>
-                                ))}
-                        </ul>
-                    </div>
-                )}
+                </div>
+                <div className="mt-10">
+                    {curriculum.extracurricular && curriculum.extracurricular.length > 0 && (
+                        <div className="print-section mt-2 extra-not-break">
+                            <h2 className="text-lg font-bold text-primary mb-4 pb-2 border-b border-gray-200 flex items-center">
+                                <Award className="h-5 w-5 mr-2" /> Atividades Extracurriculares
+                            </h2>
+                            <ul className="space-y-4">
+                                {curriculum.extracurricular
+                                    .filter((activity: any) => activity.name && activity.name.trim() !== "")
+                                    .map((activity: any, index: number) => (
+                                        <li
+                                            key={activity.id || index}
+                                            className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-3 before:h-3 before:bg-primary/20 before:rounded-full"
+                                        >
+                                            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1">
+                                                <h3 className="font-bold text-gray-800">{activity.name}</h3>
+                                                <span className="items-center flex text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1 md:mt-0">
+                                                    <Clock className="h-3 w-3 mr-1" />
+                                                    {activity.hours} horas
+                                                </span>
+                                            </div>
+                                            {activity.description && <p className="text-sm text-gray-600">{activity.description}</p>}
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
 
                 <div className="print-footer mt-8 pt-4 border-t border-gray-200 text-xs text-gray-400 flex justify-between items-center">
                     <p>Currículo gerado em {new Date().toLocaleDateString()}</p>
